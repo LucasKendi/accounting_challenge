@@ -12,6 +12,15 @@ module Api
         end
       end
 
+      def show
+        account = Account.find_by(id: account_params[:id])
+        if account.present?
+          render json: "Saldo de #{account.balance} na conta"
+        else
+          render json: "Conta com id #{account_params[:id]} não existe"
+        end
+      end
+
       private
 
       def account_params
