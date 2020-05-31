@@ -3,6 +3,7 @@ class Transfer < ApplicationRecord
             :destination_account_id,
             :amount,
             presence: true, numericality: true
+  validates :amount, numericality: { greater_than: 0 }
   validate :source_account_presence,
            :destination_account_presence,
            :source_account_has_enough_balance
@@ -25,7 +26,7 @@ class Transfer < ApplicationRecord
     return unless Account.exists?(source_account_id)
 
     source_balance = Account.find(source_account_id).balance
-    return if source_balance >= amount
+    return if source_balance >= amount.to_i
 
     errors.add(:source_account_id, 'has insufficient funds')
   end

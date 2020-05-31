@@ -50,7 +50,7 @@ describe Transfer, type: :model do
     end
 
     context 'when amount is valid' do
-      it 'has a numerical value' do
+      it 'has a positive numerical value' do
         transfer = create(
           :transfer,
           source_account_id: source_account.id,
@@ -79,6 +79,16 @@ describe Transfer, type: :model do
           source_account_id: source_account.id,
           destination_account_id: destination_account.id,
           amount: 'one thousand'
+        )
+        expect(transfer).not_to be_valid
+      end
+
+      it 'does not have a positive numerical value' do
+        transfer = build(
+          :transfer,
+          source_account_id: source_account.id,
+          destination_account_id: destination_account.id,
+          amount: -5000
         )
         expect(transfer).not_to be_valid
       end
