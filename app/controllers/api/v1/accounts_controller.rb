@@ -8,7 +8,7 @@ module Api
           account.save!
           render json: { id: account.id, token: account.token }
         rescue ActiveRecord::RecordNotUnique
-          render json: "O id #{account.id} já está sendo utilizado"
+          render json: "O id #{account.id} já está sendo utilizado", status: :conflict
         end
       end
 
@@ -17,7 +17,7 @@ module Api
         if account.present?
           render json: "Saldo de #{account.balance} na conta"
         else
-          render json: "Conta com id #{account_params[:id]} não existe"
+          render json: "Conta com id #{account_params[:id]} não existe", status: :not_found
         end
       end
 
