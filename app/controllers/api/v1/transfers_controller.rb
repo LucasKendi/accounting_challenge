@@ -11,7 +11,7 @@ module Api
             render json: e
           end
         else
-          render json: transfer.errors.full_messages
+          render json: transfer.errors.full_messages, status: :not_acceptable
         end
       end
 
