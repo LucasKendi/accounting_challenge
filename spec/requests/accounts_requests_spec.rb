@@ -51,7 +51,7 @@ describe Api::V1::AccountsController, type: :controller do
         get :show, params: request_params
 
         expect(response).to have_http_status(:success)
-        expect(response.body).to eq('Saldo de 10000 na conta')
+        expect(response.body).to eq('Saldo de R$100,00 na conta')
       end
     end
 
