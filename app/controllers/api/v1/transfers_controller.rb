@@ -1,6 +1,8 @@
 module Api
   module V1
     class TransfersController < ApplicationController
+      before_action :authenticate
+
       def create
         transfer = Transfer.new(transfer_params)
         if transfer.valid?

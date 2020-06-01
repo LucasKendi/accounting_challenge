@@ -1,6 +1,8 @@
 module Api
   module V1
     class AccountsController < ApplicationController
+      before_action :authenticate, except: [:create]
+
       def create
         account = Account.new(account_params)
         account.token = SecureRandom.urlsafe_base64
