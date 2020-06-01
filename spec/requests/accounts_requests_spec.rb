@@ -38,12 +38,15 @@ describe Api::V1::AccountsController, type: :controller do
   end
 
   describe 'GET #show' do
-    context 'when the request is correct' do
+    context 'when the request is correct with token' do
       it 'returns http success and account balance', :aggregate_failures do
-        create(:account, id: 123, balance: 10_000)
-        request_params = {
-          id: 123
-        }
+        account = create(:account, id: 123, balance: 10_000)
+
+        authorization = ActionController::HttpAuthentication::Token.encode_credentials(account.token)
+        headers = { Authorization: authorization }
+        request.headers.merge! headers
+
+        request_params = { id: 123 }
 
         get :show, params: request_params
 
@@ -53,15 +56,13 @@ describe Api::V1::AccountsController, type: :controller do
     end
 
     context 'when the account does not exist' do
-      it 'returns http success and account balance', :aggregate_failures do
-        request_params = {
-          id: 123
-        }
+      it 'returns unauthorized status', :aggregate_failures do
+        request_params = { id: 123 }
 
         get :show, params: request_params
 
-        expect(response).to have_http_status(:not_found)
-        expect(response.body).to eq('Conta com id 123 não existe')
+        expect(response).to have_http_status(:unauthorized)
+        expect(response.body).to match('HTTP Token: Access denied.')
       end
     end
   end

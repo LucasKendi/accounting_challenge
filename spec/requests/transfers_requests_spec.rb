@@ -3,7 +3,8 @@ require 'rails_helper'
 describe Api::V1::TransfersController, type: :controller do
   describe 'POST #create' do
     let(:source_account) { create(:account, balance: 5000) }
-    let(:destination_account ) { create(:account, balance: 5000) }
+    let(:destination_account) { create(:account, balance: 5000) }
+
     context 'when the request is correct' do
       it 'returns htpp success and apply the transfer', :aggregate_failures do
         request_params = {
@@ -11,6 +12,10 @@ describe Api::V1::TransfersController, type: :controller do
           destination_account_id: destination_account.id,
           amount: 2500
         }
+
+        authorization = ActionController::HttpAuthentication::Token.encode_credentials(source_account.token)
+        headers = { Authorization: authorization }
+        request.headers.merge! headers
 
         post :create, params: request_params
 
@@ -35,6 +40,10 @@ describe Api::V1::TransfersController, type: :controller do
           amount: 10_000
         }
 
+        authorization = ActionController::HttpAuthentication::Token.encode_credentials(source_account.token)
+        headers = { Authorization: authorization }
+        request.headers.merge! headers
+
         post :create, params: request_params
 
         expect(response).to have_http_status(:not_acceptable)
@@ -53,6 +62,10 @@ describe Api::V1::TransfersController, type: :controller do
           amount: 10_000
         }
 
+        authorization = ActionController::HttpAuthentication::Token.encode_credentials(source_account.token)
+        headers = { Authorization: authorization }
+        request.headers.merge! headers
+
         post :create, params: request_params
         expect(response).to have_http_status(:not_acceptable)
         expect(JSON.parse(response.body)).to eq(['Source account does not exists'])
@@ -64,6 +77,10 @@ describe Api::V1::TransfersController, type: :controller do
           destination_account_id: 555,
           amount: 5000
         }
+
+        authorization = ActionController::HttpAuthentication::Token.encode_credentials(source_account.token)
+        headers = { Authorization: authorization }
+        request.headers.merge! headers
 
         post :create, params: request_params
         expect(response).to have_http_status(:not_acceptable)
