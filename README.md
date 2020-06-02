@@ -1,4 +1,4 @@
-# Account movement challenge
+# Accounting challenge
 
 Esse repositório é um desafio de gestão financeira.
 
