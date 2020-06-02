@@ -16,7 +16,7 @@ Gems adicionais:
  - Factory Bot (5.2.0) - Auxiliar na criação de testes
 
 
-## Instalação
+## Instalação local
 Clone o projeto:
 ```bash
 $ git clone https://github.com/LucasKendi/accounting_challenge.git
@@ -30,9 +30,22 @@ Execute as migrações:
 $ rails db:create
 $ rails db:migrate
 ```
-
 Caso seja necessário, altere o password do arquivo `database.yml` para o seu password do usuário root no mysql
 
+## Instalação com docker
+```bash
+$ git clone https://github.com/LucasKendi/accounting_challenge.git
+```
+
+Construa os containers:
+```bash
+$ docker-compose build
+```
+
+Inicie os containers:
+```bash
+$ docker-compose up
+```
 ## Uso
 
 ### Criar conta
