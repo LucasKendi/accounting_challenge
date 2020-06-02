@@ -8,7 +8,7 @@ Seu objetivo é executar a criação de contas  e transferências entre elas atr
 Tecnologias utilizadas no projeto:
  - ruby (2.6.3)
  - rails (6.0.3.1)
- - mysql (14.14)
+ - mysql (5.7.30)
 
 Gems adicionais:
  - Rspec (3.10.0.pre) - Garantir a confiabilidade do código
